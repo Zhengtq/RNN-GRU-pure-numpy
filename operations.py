@@ -4,10 +4,7 @@ import math
 
 class MultiplyGate:
     def forward(self,W,Wb, x):
-
         res = np.dot(W,x) + Wb
-
-
         return res
 
     def backward(self, W,Wb, x, dz):
@@ -81,8 +78,6 @@ class Softmax:
             res = 1.0 / (1.0 + math.exp(-x))
         else:
             res = math.exp(x)/(1.0+math.exp(x))
-
-
         return res
 
     def loss(self, x, y):
