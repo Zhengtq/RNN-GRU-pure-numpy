@@ -72,31 +72,31 @@ def generate_pos_sample(all_pos_fea_easy, all_pos_fea_hard):
 
 
 def main():
-        time_step = 5
-        all_rnn_fea_txt = './rnn_fea/all_combine_fea.txt'
-        all_pos_fea_easy, all_pos_fea_hard, all_neg_fea_easy, all_neg_fea_hard = load_all_train_feature(all_rnn_fea_txt)
-	rnn = Model(feature_dim, hidden_dim, time_step= 5)
+    time_step = 5
+    all_rnn_fea_txt = './rnn_fea/all_combine_fea.txt'
+    all_pos_fea_easy, all_pos_fea_hard, all_neg_fea_easy, all_neg_fea_hard = load_all_train_feature(all_rnn_fea_txt)
+    rnn = Model(feature_dim, hidden_dim, time_step= 5)
 
-        lr = 0.1
-	for i in range(1000000):
-	    if i % 2==0:
-		fea = generate_neg_sample(all_neg_fea_easy, all_neg_fea_hard)
-            #    fea = np.random.rand(time_step, feature_dim)/1000 + -1
-		label = np.array(0)
-	    else:
-		fea = generate_pos_sample(all_pos_fea_easy, all_pos_fea_hard)
-        #        fea = np.random.rand(time_step, feature_dim)/1000 + 1
-		label = np.array(1)
+    lr = 0.1
+    for i in range(1000000):
+        if i % 2==0:
+            fea = generate_neg_sample(all_neg_fea_easy, all_neg_fea_hard)
+        #    fea = np.random.rand(time_step, feature_dim)/1000 + -1
+            label = np.array(0)
+        else:
+            fea = generate_pos_sample(all_pos_fea_easy, all_pos_fea_hard)
+    #        fea = np.random.rand(time_step, feature_dim)/1000 + 1
+            label = np.array(1)
 
 
-            if i % 200 == 0:
-                lr = lr / 2
-            time_step = len(fea)
-	    loss = rnn.train(fea, label, time_step, learning_rate = lr)
+        if i % 200 == 0:
+            lr = lr / 2
+        time_step = len(fea)
+        loss = rnn.train(fea, label, time_step, learning_rate = lr)
 
-            print('step: %d, loss: %.2f'%(i, loss))
-            if i !=0 and i % 200 == 0:
-                rnn.save_wt()
+        print('step: %d, loss: %.2f'%(i, loss))
+        if i !=0 and i % 200 == 0:
+            rnn.save_wt()
 
 
 
